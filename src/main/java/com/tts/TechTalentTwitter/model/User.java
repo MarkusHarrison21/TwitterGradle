@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.Email;
@@ -53,5 +54,13 @@ public class User {
     private Set<Role> roles;
 
     private int active;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_follower", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "follower_id"))
+    private List<User> followers;
+
+    @ManyToMany(mappedBy="followers")
+    private List<User> following;
 
 }
